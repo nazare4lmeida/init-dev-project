@@ -13,7 +13,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Header />
-        <main className='container'>
+        <main className='container mx-auto px-4 py-8 overflow-x-hidden'>
           <Routes>
             <Route path='/' element={<Dashboard />} />
             <Route path='/login' element={<LoginPage />} />
