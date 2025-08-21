@@ -10,9 +10,18 @@ const courseSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add a description'],
     },
-    category: {
+    language: { // Novo campo para a linguagem de programacao
       type: String,
-      required: [true, 'Please add a category'],
+      required: true,
+    },
+    slots: { // Campo para o numero de vagas
+      type: Number,
+      required: true,
+      default: 50,
+    },
+    availableSlots: { // Campo para vagas disponiveis
+      type: Number,
+      default: 50,
     },
   },
   {

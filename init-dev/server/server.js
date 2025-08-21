@@ -17,6 +17,8 @@ app.use(express.json());
 app.use('/api/courses', courseRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/notes', noteRoutes);
+app.use('/api/enroll', require('./routes/enrollmentRoutes'));
+app.use('/api/access', require('./routes/accessRoutes'));
 
 // Rota de teste
 app.get('/', (req, res) => {

@@ -1,7 +1,7 @@
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import AuthContext from '../context/AuthContext';
-import logo from '../assets/img-logo2.png';
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+import logo from "../assets/img-logo2.png";
 
 function Header() {
   const { user, logout } = useContext(AuthContext);
@@ -9,7 +9,7 @@ function Header() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -23,11 +23,21 @@ function Header() {
         <nav>
           {user ? (
             <div className="flex items-center space-x-4">
-              <RouterLink to="/courses" className="text-gray-700 hover:text-teal-700 transition duration-150 ease-in-out">Cursos</RouterLink>
-              <RouterLink to="/notes" className="text-gray-700 hover:text-teal-700 transition duration-150 ease-in-out">Anotações</RouterLink>
+              <RouterLink
+                to="/courses"
+                className="text-gray-700 hover:text-teal-700 transition duration-150 ease-in-out"
+              >
+                Cursos
+              </RouterLink>
+              <RouterLink
+                to="/notes"
+                className="text-gray-700 hover:text-teal-700 transition duration-150 ease-in-out"
+              >
+                Anotações
+              </RouterLink>
               <button
                 onClick={handleLogout}
-                className="px-3 py-2 font-medium text-white bg-teal- rounded-md hover:bg-teal-600 transition duration-150 ease-in-out"
+                className="px-3 py-2 font-medium text-white bg-teal-700 rounded-md hover:bg-teal-600 transition duration-150 ease-in-out"
               >
                 Sair
               </button>
@@ -41,10 +51,10 @@ function Header() {
                 Login
               </RouterLink>
               <RouterLink
-                to="/register"
-                className="px-3 py-2 font-medium text-white bg-teal-800 rounded-md hover:bg-teal-700 transition duration-150 ease-in-out"
+                to="/access"
+                className="px-3 py-2 font-medium text-white bg-teal-700 rounded-md hover:bg-teal-600 transition duration-150 ease-in-out"
               >
-                Registro
+                Inscrição
               </RouterLink>
             </div>
           )}

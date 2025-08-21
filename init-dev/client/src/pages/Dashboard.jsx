@@ -1,13 +1,17 @@
 import { Link as RouterLink } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../context/AuthContext';
 import image from '../assets/img-1.png';
 
 function Dashboard() {
+  const { user } = useContext(AuthContext);
+
   return (
     <div className="bg-white min-h-screen">
       {/* Seção de Texto de Boas-Vindas */}
       <section className="container mx-auto px-4 py-12 md:py-10 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-9 text-darkslateblue">
-          Bem-vindo(a), Aluno(a)!
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2 text-darkslateblue">
+          Bem-vindo(a), {user.name}!
         </h1>
         <p className="text-lg md:text-xl font-medium text-gray-600">
           Sua jornada para o aprendizado em tecnologia começa aqui.
@@ -21,9 +25,29 @@ function Dashboard() {
         </div>
       </section>
 
-      {/* Seção de Cards de Acesso */}
+      {/* Seção de Cards de Acesso e Perfil do Usuário */}
       <section className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Card de Perfil do Usuário */}
+          <div className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-gray-400">
+            <h2 className="text-2xl font-bold mb-2 text-gray-800">
+              Meu Perfil
+            </h2>
+            <div className="text-gray-600">
+              <p><strong>Nome:</strong> {user.name}</p>
+              <p><strong>Email:</strong> {user.email}</p>
+              <p className="mt-4">
+                Gerencie sua conta e veja seus dados.
+              </p>
+            </div>
+            <RouterLink
+              to="/profile"
+              className="inline-block px-4 py-2 mt-4 font-medium text-white bg-darkslategray rounded-md hover:bg-gray-600 transition-colors"
+            >
+              Ver Perfil
+            </RouterLink>
+          </div>
+          
           {/* Card de Materiais de Estudo */}
           <div className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-teal-700">
             <h2 className="text-2xl font-bold mb-2 text-gray-800">
