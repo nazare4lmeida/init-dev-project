@@ -1,7 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import logoFooter from "../assets/img-logo.png";
+import logoFooter from "../assets/img-logo-footer2.png";
 
 function Footer() {
   return (

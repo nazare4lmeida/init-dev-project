@@ -10,18 +10,21 @@ const courseSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add a description'],
     },
-    language: { // Novo campo para a linguagem de programacao
+    language: {
       type: String,
       required: true,
     },
-    slots: { // Campo para o numero de vagas
+    slots: {
       type: Number,
       required: true,
       default: 50,
     },
-    availableSlots: { // Campo para vagas disponiveis
+    availableSlots: {
       type: Number,
       default: 50,
+    },
+    imagePaths: { // Novo campo para o array de caminhos de imagem
+      type: [String],
     },
   },
   {

@@ -5,7 +5,7 @@ const User = require('../models/User');
 // Função auxiliar para gerar o token JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
+    expiresIn: '365d',
   });
 };
 
@@ -42,6 +42,7 @@ const registerUser = async (req, res) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
+      role: user.role, // Adicionando o role na resposta
     });
   } else {
     res.status(400).json({ message: 'Invalid user data' });
@@ -63,6 +64,7 @@ const loginUser = async (req, res) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
+      role: user.role, // Adicionando o role na resposta
     });
   } else {
     res.status(400).json({ message: 'Credenciais inválidas.' });

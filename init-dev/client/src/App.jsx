@@ -9,6 +9,10 @@ import Dashboard from './pages/Dashboard';
 import CoursePage from './pages/CoursePage';
 import NotesPage from './pages/NotesPage';
 import PrivateRoute from './components/PrivateRoute';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+
 
 function App() {
   return (
@@ -21,12 +25,15 @@ function App() {
             <Route path='/' element={<HomePage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/access' element={<AccessRequestPage />} />
-            
+            <Route path='/about' element={<AboutPage />} />
+            <Route path='/contact' element={<ContactPage />} />
+
             {/* Rotas Protegidas */}
             <Route path='/' element={<PrivateRoute />}>
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/courses' element={<CoursePage />} />
               <Route path='/notes' element={<NotesPage />} />
+              <Route path='/admin' element={<AdminDashboardPage />} />
             </Route>
           </Routes>
         </main>

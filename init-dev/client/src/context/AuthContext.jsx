@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import authService from '../api/authService';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -14,24 +14,42 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (userData) => {
-    const loggedInUser = await authService.login(userData);
+    const response = await axios.post('/api/users/login', userData);
+    const loggedInUser = response.data;
+    if (loggedInUser.token) {
+      localStorage.setItem('user', JSON.stringify(loggedInUser));
+    }
     setUser(loggedInUser);
     return loggedInUser;
   };
 
   const register = async (userData) => {
-    const registeredUser = await authService.register(userData);
+    const response = await axios.post('/api/users', userData);
+    const registeredUser = response.data;
+    if (registeredUser.token) {
+      localStorage.setItem('user', JSON.stringify(registeredUser));
+    }
     setUser(registeredUser);
     return registeredUser;
   };
 
   const logout = () => {
-    authService.logout();
+    localStorage.removeItem('user');
     setUser(null);
   };
 
+  const enroll = async (enrollData) => {
+    const response = await axios.post('/api/enroll', enrollData);
+    return response.data;
+  }
+  
+  const requestAccess = async (accessData) => {
+    const response = await axios.post('/api/access', accessData);
+    return response.data;
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, register }}>
+    <AuthContext.Provider value={{ user, login, logout, register, enroll, requestAccess }}>
       {children}
     </AuthContext.Provider>
   );

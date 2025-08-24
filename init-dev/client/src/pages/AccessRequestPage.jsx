@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 function AccessRequestPage() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ function AccessRequestPage() {
     username: '',
   });
   const [message, setMessage] = useState('');
+  const { requestAccess } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const { name, email, username } = formData;
 
@@ -21,8 +24,10 @@ function AccessRequestPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/access', formData);
-      setMessage(response.data.message);
+      const response = await requestAccess(formData);
+      setMessage(response.message);
+      alert('Solicitação enviada com sucesso! Aguarde a aprovação.');
+      navigate('/login');
     } catch (error) {
       setMessage(error.response.data.message || 'Erro ao enviar a solicitação.');
     }
