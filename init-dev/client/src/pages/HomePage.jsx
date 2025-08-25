@@ -57,7 +57,7 @@ function HomePage() {
         </div>
       </section>
 
-            {/* Seção de Apresentação */}
+      {/* Seção de Apresentação */}
       <section className="container mx-auto px-4 py-8 text-center">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-darkslateblue">
           Explore o Futuro da Tecnologia

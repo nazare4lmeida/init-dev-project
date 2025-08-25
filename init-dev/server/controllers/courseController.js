@@ -1,4 +1,3 @@
-// server/controllers/courseController.js
 const Course = require('../models/Course');
 
 const getCourses = async (req, res) => {
@@ -13,7 +12,7 @@ const getCoursesAdmin = async (req, res) => {
 
 const createCourse = async (req, res) => {
   const { title, description, language, slots } = req.body;
-  const images = req.files.map(file => `/uploads/${file.filename}`); // Lida com múltiplos arquivos
+  const images = req.files.map(file => `/uploads/${file.filename}`);
 
   if (!title || !description || !language || !slots) {
     return res.status(400).json({ message: 'Please include all fields' });
@@ -25,7 +24,7 @@ const createCourse = async (req, res) => {
     language,
     slots,
     availableSlots: slots,
-    imagePaths: images, // Salvando um array de caminhos de imagens
+    imagePaths: images,
   });
 
   res.status(201).json(course);
@@ -47,12 +46,15 @@ const updateCourse = async (req, res) => {
     language,
     slots,
     availableSlots: slots,
-    imagePaths: images.length > 0 ? images : course.imagePaths, // Atualiza se novos arquivos forem enviados
+    imagePaths: images.length > 0 ? images : course.imagePaths,
   }, { new: true });
 
   res.status(200).json(updatedCourse);
 };
 
+// @desc    Deletar um curso
+// @route   DELETE /api/courses/:id
+// @access  Private (Admin Only)
 const deleteCourse = async (req, res) => {
   const course = await Course.findById(req.params.id);
 
@@ -60,7 +62,7 @@ const deleteCourse = async (req, res) => {
     return res.status(404).json({ message: 'Curso não encontrado.' });
   }
 
-  await course.remove();
+  await course.deleteOne(); // Alterado de .remove() para .deleteOne()
 
   res.status(200).json({ message: 'Curso removido com sucesso.' });
 };
