@@ -1,5 +1,56 @@
 const mongoose = require('mongoose');
 
+// =======================================================
+// SUB-SCHEMA: Quiz
+// Armazena perguntas de múltipla escolha.
+// =======================================================
+const quizSchema = mongoose.Schema({
+    question: {
+        type: String,
+        required: true,
+    },
+    options: [{
+        text: { type: String, required: true },
+        isCorrect: { type: Boolean, default: false },
+    }],
+    explanation: {
+        type: String, // Explicação mostrada se o usuário acertar/errar
+    },
+});
+
+// =======================================================
+// SUB-SCHEMA: Code Challenge (O Code Playground)
+// Armazena o código inicial e a estrutura de verificação.
+// =======================================================
+const codeChallengeSchema = mongoose.Schema({
+    // Instruções visíveis ao usuário
+    instructions: {
+        type: String,
+        required: true,
+    },
+    // Código inicial que aparece no editor (ex: a função vazia)
+    starterCode: {
+        type: String,
+        required: true,
+    },
+    // Tipo de linguagem do desafio (usado para sintaxe destacada no editor)
+    language: {
+        type: String,
+        enum: ['javascript', 'html', 'css', 'python'], // Expanda conforme necessário
+        default: 'javascript',
+    },
+    // Casos de teste que o backend irá executar (Ex: [{input: '5', expectedOutput: '10'}])
+    // NOTA: Para HTML/CSS, a validação é visual ou baseada em DOM, o que é mais complexo e não será feito aqui.
+    testCases: [{
+        input: { type: String }, // Ex: argumento para uma função
+        expectedOutput: { type: String }, // Ex: resultado esperado
+    }],
+});
+
+
+// =======================================================
+// PRINCIPAL SCHEMA: Lesson (com campos opcionais para Quiz/Code)
+// =======================================================
 const lessonSchema = mongoose.Schema(
     {
         title: {
@@ -25,14 +76,19 @@ const lessonSchema = mongoose.Schema(
         },
         module: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Course.modules', // Pode não ser estritamente necessário no Mongoose, mas ajuda na clareza.
+            ref: 'Course.modules', 
             required: true,
         },
         order: { // Para garantir a ordem correta das lições
             type: Number,
             required: true,
         },
-        // Se for do tipo 'code-challenge', pode ter campos adicionais aqui (Ex: starterCode, testCases)
+        
+        // NOVO CAMPO: Dados específicos para Quizzes
+        quiz: quizSchema,
+        
+        // NOVO CAMPO: Dados específicos para Code Challenges
+        codeChallenge: codeChallengeSchema,
     },
     {
         timestamps: true,

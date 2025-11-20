@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import image from '../assets/img-1.png';
+import AuthContext from '../context/AuthContext'; // 1. Importe o contexto
 
 function HomePage() {
+  // 2. Pegamos o usuário para saber qual botão mostrar
+  const { user } = useContext(AuthContext);
+
   const courses = [
     {
       _id: '1',
@@ -67,36 +71,79 @@ function HomePage() {
             A Init.dev oferece o material completo para seus estudos em tecnologia, com cursos, quizzes e um bloco de anotações interativo.
           </p>
           <p className="mt-4 text-gray-600">
-            Você terá direito a um certificado de conclusão, caso complete todos os requisitos do curso. Solicite acesso e comece sua jornada de aprendizado hoje mesmo!
+            Você terá direito a um certificado de conclusão, caso complete todos os requisitos do curso.
           </p>
         </div>
-        <RouterLink
-          to="/access"
-          className="inline-block px-8 py-3 mt-8 text-lg font-medium text-white bg-teal-700 rounded-md hover:bg-teal-600 transition-colors"
-        >
-          Solicitar Acesso
-        </RouterLink>
+        
+        {/* 3. BOTÕES DINÂMICOS DO HERO */}
+        <div className="mt-8 flex gap-4 justify-center">
+          {user ? (
+             <RouterLink
+               to="/dashboard"
+               className="px-8 py-3 text-lg font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
+             >
+               Ir para meu Dashboard
+             </RouterLink>
+          ) : (
+             <>
+                <RouterLink
+                  to="/access"
+                  className="px-8 py-3 text-lg font-medium text-white bg-teal-700 rounded-md hover:bg-teal-600 transition-colors"
+                >
+                  Solicitar Acesso
+                </RouterLink>
+                <RouterLink
+                  to="/login"
+                  className="px-8 py-3 text-lg font-medium text-teal-700 bg-teal-50 border border-teal-200 rounded-md hover:bg-teal-100 transition-colors"
+                >
+                  Já tenho conta
+                </RouterLink>
+             </>
+          )}
+        </div>
       </section>
 
       {/* Seção de Ementa dos Cursos */}
       <section className="bg-gray-100 py-12">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8 text-darkslateblue">
-            Ementa dos Cursos
+            Cursos Disponíveis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {courses.map(course => (
-              <div key={course._id} className="bg-white rounded-lg shadow-lg p-6 flex flex-col border-t-4 border-teal-700">
+              <div key={course._id} className="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-between border-t-4 border-teal-700 hover:shadow-xl transition-shadow">
                 <div>
-                  <h3 className="text-xl font-bold mb-2 text-gray-800">
-                    {course.title}
-                  </h3>
-                  <p className="text-gray-600">
+                  <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-xl font-bold text-gray-800">{course.title}</h3>
+                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded border border-gray-200">{course.language}</span>
+                  </div>
+                  <p className="text-gray-600 mb-4 text-sm">
                     {course.description}
                   </p>
+                  <div className="mb-4 text-xs font-medium text-gray-500">
+                    <span className="font-semibold text-gray-700">Tópicos:</span> {course.topics.join(', ')}
+                  </div>
                 </div>
-                <div className="mt-4 text-sm font-medium text-gray-500">
-                  <span className="font-semibold text-gray-700">Tópicos:</span> {course.topics.join(', ')}
+
+                {/* 4. BOTÃO DE AÇÃO NO CARD */}
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                    {user ? (
+                        // Se logado, vai para a página interna de cursos (ou direto pra aula se quiser ajustar o link)
+                        <RouterLink 
+                            to="/courses" 
+                            className="block w-full text-center bg-indigo-50 text-indigo-700 py-2 rounded-md font-bold hover:bg-indigo-100 transition-colors"
+                        >
+                            Acessar Conteúdo
+                        </RouterLink>
+                    ) : (
+                        // Se deslogado, manda para login
+                        <RouterLink 
+                            to="/login" 
+                            className="block w-full text-center bg-gray-50 text-gray-600 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors border border-gray-200"
+                        >
+                            Faça login para acessar
+                        </RouterLink>
+                    )}
                 </div>
               </div>
             ))}
@@ -104,20 +151,18 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Seção de Funcionalidades */}
+      {/* Seção de Funcionalidades (Mantive igual) */}
       <section className="py-12">
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Bloco de Quizzes */}
           <div className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-teal-700">
             <h2 className="text-3xl font-bold mb-4 text-darkslateblue">
               Quizzes e Projetos Práticos
             </h2>
             <p className="text-gray-600">
-              Teste seus conhecimentos com quizzes interativos e desenvolva pequenos projetos de código para fixar o aprendizado. Você pode praticar o código dentro da própria plataforma.
+              Teste seus conhecimentos com quizzes interativos e desenvolva pequenos projetos de código para fixar o aprendizado.
             </p>
           </div>
           
-          {/* Bloco de Anotações */}
           <div className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-teal-700">
             <h2 className="text-3xl font-bold mb-4 text-darkslateblue">
               Bloco de Anotações Inteligente

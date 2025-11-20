@@ -12,60 +12,68 @@ function Header() {
     navigate("/login");
   };
 
+  // Estilo comum para os botões de navegação (DRY)
+  const navLinkClass = "px-3 py-1.5 font-medium text-white bg-teal-700 rounded-md text-sm hover:bg-teal-600 transition duration-150 ease-in-out shadow-sm";
+
   return (
-    <header className="bg-gray-100 border-b border-gray-300 py-4">
-      {/* MOBILE: empilha e centraliza (logo em cima, botões abaixo) | DESKTOP: lado a lado */}
-      <div className="container mx-auto px-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+    <header className="bg-gray-100 border-b border-gray-300 py-4 shadow-sm">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         
         {/* Logo */}
         <div className="flex justify-center md:justify-start">
-          <RouterLink to="/">
-            <img src={logo} alt="Init.dev Logo" className="max-h-24 md:max-h-32 w-auto object-contain" />
+          <RouterLink to={user ? "/dashboard" : "/"}>
+            <img
+              src={logo}
+              alt="Init.dev Logo"
+              className="max-h-16 md:max-h-20 w-auto object-contain hover:opacity-90 transition-opacity"
+            />
           </RouterLink>
         </div>
 
-        {/* Nav */}
+        {/* Navegação */}
         <nav>
           {user ? (
-            <div className="flex flex-wrap justify-center md:justify-end items-center gap-2 md:gap-4">
+            <div className="flex flex-wrap justify-center md:justify-end items-center gap-3">
+              
               {user.role === "admin" && (
-                <RouterLink
-                  to="/admin"
-                  className="px-2 py-1 font-medium text-white bg-teal-700 rounded-md text-sm hover:bg-teal-600 transition duration-150 ease-in-out"
-                >
+                <RouterLink to="/admin" className={navLinkClass}>
                   Admin
                 </RouterLink>
               )}
-              <RouterLink
-                to="/courses"
-                className="px-2 py-1 font-medium text-white bg-teal-700 rounded-md text-sm hover:bg-teal-600 transition duration-150 ease-in-out"
-              >
+              
+              <RouterLink to="/courses" className={navLinkClass}>
                 Cursos
               </RouterLink>
-              <RouterLink
-                to="/notes"
-                className="px-2 py-1 font-medium text-white bg-teal-700 rounded-md text-sm hover:bg-teal-600 transition duration-150 ease-in-out"
-              >
+              
+              <RouterLink to="/lessons" className={navLinkClass}>
+                Lições
+              </RouterLink>
+              
+              <RouterLink to="/notes" className={navLinkClass}>
                 Anotações
               </RouterLink>
+              
+              {/* Separador Visual (Opcional) */}
+              <div className="h-6 w-px bg-gray-300 mx-1 hidden md:block"></div>
+
               <button
                 onClick={handleLogout}
-                className="px-2 py-1 font-medium text-white bg-teal-700 rounded-md text-sm hover:bg-teal-600 transition duration-150 ease-in-out"
+                className="px-3 py-1.5 font-medium text-teal-700 bg-transparent border border-teal-700 rounded-md text-sm hover:bg-teal-50 transition duration-150 ease-in-out"
               >
                 Sair
               </button>
             </div>
           ) : (
-            <div className="flex flex-wrap justify-center md:justify-end items-center gap-2 md:gap-4">
+            <div className="flex flex-wrap justify-center md:justify-end items-center gap-3">
               <RouterLink
                 to="/login"
-                className="px-2 py-1 font-medium text-gray-700 rounded-md border border-gray-300 text-sm hover:bg-gray-200 transition duration-150 ease-in-out"
+                className="px-3 py-1.5 font-medium text-gray-700 rounded-md border border-gray-300 text-sm hover:bg-gray-200 transition duration-150 ease-in-out"
               >
                 Login
               </RouterLink>
               <RouterLink
                 to="/access"
-                className="px-2 py-1 font-medium text-white bg-teal-700 rounded-md text-sm hover:bg-teal-600 transition duration-150 ease-in-out"
+                className={navLinkClass}
               >
                 Solicitar Acesso
               </RouterLink>

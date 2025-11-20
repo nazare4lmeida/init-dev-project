@@ -83,7 +83,7 @@ function LoginPage() {
       </form>
       <p className="mt-4 text-sm text-center text-gray-600">
         Ainda não tem uma conta?{' '}
-        <RouterLink to="/enroll" className="font-medium text-teal-700 hover:text-teal-500">
+        <RouterLink to="/access" className="font-medium text-teal-700 hover:text-teal-500">
           Inscreva-se
         </RouterLink>
       </p>

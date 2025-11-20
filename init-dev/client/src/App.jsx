@@ -13,7 +13,8 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import CourseManagementPage from './pages/CourseManagementPage'; 
-
+import LessonPage from './pages/LessonPage';
+import LessonsPage from './pages/LessonsPage';
 
 function App() {
   return (
@@ -30,10 +31,12 @@ function App() {
             <Route path='/contact' element={<ContactPage />} />
 
             {/* Rotas Protegidas */}
-            <Route path='/' element={<PrivateRoute />}>
+           <Route element={<PrivateRoute />}>
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/courses' element={<CoursePage />} />
               <Route path='/notes' element={<NotesPage />} />
+              <Route path='/lesson/:id' element={<LessonPage />} />
+              <Route path='/lessons' element={<LessonsPage />} />
               <Route path='/admin' element={<AdminDashboardPage />} />
               
                 {/* NOVA ROTA DE DETALHES DO CURSO: Usa o slug como parâmetro dinâmico */}

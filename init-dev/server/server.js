@@ -5,6 +5,7 @@ const courseRoutes = require('./routes/courseRoutes');
 const userRoutes = require('./routes/userRoutes');
 const noteRoutes = require('./routes/noteRoutes');
 const progressRoutes = require('./routes/progressRoutes');
+const lessonRoutes = require('./routes/lessonRoutes');
 const cors = require('cors');
 
 dotenv.config({ path: './.env' });
@@ -28,6 +29,7 @@ app.use('/api/notes', noteRoutes);
 app.use('/api/enroll', require('./routes/enrollmentRoutes'));
 app.use('/api/access', require('./routes/accessRoutes'));
 app.use('/api/progress', progressRoutes);
+app.use('/api/lessons', lessonRoutes);
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/messages', require('./routes/messageRoutes'));
 
