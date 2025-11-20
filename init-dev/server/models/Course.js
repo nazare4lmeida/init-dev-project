@@ -12,16 +12,14 @@ const moduleSchema = mongoose.Schema({
     description: {
         type: String,
     },
-    // Opcional: Para controlar a ordem dos módulos
     order: { 
         type: Number,
         required: true,
     },
-    // Referência para as Lições: Guardamos os IDs das Lições que pertencem a este módulo.
-    // As Lições (Lesson) serão armazenadas na sua própria coleção separada.
+    // Referência para as Lições
     lessons: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Lesson' // Referência à coleção 'Lesson'
+        ref: 'Lesson' 
     }]
 });
 
@@ -42,13 +40,11 @@ const courseSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        // CAMPO MANTIDO: Lógica de Limite de Alunos
         slots: { 
             type: Number,
             required: true,
             default: 50,
         },
-        // CAMPO MANTIDO: Slots Disponíveis
         availableSlots: { 
             type: Number,
             default: 50,
@@ -57,19 +53,40 @@ const courseSchema = mongoose.Schema(
             type: [String],
         },
         
-        // NOVO CAMPO: Array de Módulos (Sub-documentos)
+        // Array de Módulos
         modules: [moduleSchema], 
         
-        // NOVO CAMPO: Slug para URLs amigáveis (Ex: /cursos/logica-de-programacao)
+        // Slug Automático
         slug: { 
             type: String,
             unique: true,
-            required: true // Deve ser gerado no backend ao criar o curso
+            // RETIREI O REQUIRED: TRUE AQUI PARA O PRE-SAVE FUNCIONAR LIVREMENTE
         } 
     },
     {
         timestamps: true,
     }
-);
+); // <--- IMPORTANTE: FECHEI O SCHEMA AQUI
+
+// --- MIDDLEWARE: Gera o Slug antes de salvar ---
+courseSchema.pre('save', function(next) {
+  if (!this.isModified('title') && this.slug) {
+    return next();
+  }
+
+  // Gera slug baseado no título se ele não existir
+  if (this.title && !this.slug) {
+      this.slug = this.title
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, '-')        // Espaços viram -
+        .replace(/[^\w\-]+/g, '')    // Remove caracteres especiais
+        .replace(/\-\-+/g, '-')      // Remove múltiplos -
+        .replace(/^-+/, '')          // Remove - do começo
+        .replace(/-+$/, '');         // Remove - do fim
+  }
+  
+  next();
+});
 
 module.exports = mongoose.model('Course', courseSchema);

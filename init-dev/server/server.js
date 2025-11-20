@@ -6,6 +6,7 @@ const userRoutes = require('./routes/userRoutes');
 const noteRoutes = require('./routes/noteRoutes');
 const progressRoutes = require('./routes/progressRoutes');
 const lessonRoutes = require('./routes/lessonRoutes');
+const certificateRoutes = require('./routes/certificateRoutes');
 const cors = require('cors');
 
 dotenv.config({ path: './.env' });
@@ -32,6 +33,7 @@ app.use('/api/progress', progressRoutes);
 app.use('/api/lessons', lessonRoutes);
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/messages', require('./routes/messageRoutes'));
+app.use('/api/certificates', certificateRoutes);
 
 // Rota de teste
 app.get('/', (req, res) => {

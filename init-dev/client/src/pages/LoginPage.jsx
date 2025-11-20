@@ -25,10 +25,9 @@ function LoginPage() {
 
     try {
       await login(formData);
-      navigate('/');
+      navigate('/'); // Ou '/dashboard' dependendo da sua lógica
     } catch (error) {
-      // Você pode adicionar uma mensagem de erro mais amigável aqui
-      console.error('Login failed', error.response.data.message);
+      console.error('Login failed', error.response?.data?.message);
       alert('Credenciais inválidas. Por favor, tente novamente.');
     }
   };
@@ -57,8 +56,18 @@ function LoginPage() {
               onChange={onChange}
             />
           </div>
+          
           <div>
-            <label htmlFor="password" className="sr-only">Senha</label>
+            {/* MUDANÇA AQUI: Label + Link "Esqueceu a senha" na mesma linha */}
+            <div className="flex items-center justify-between mb-1">
+                <label htmlFor="password" className="sr-only">Senha</label>
+                <RouterLink 
+                    to="/forgot-password" 
+                    className="text-sm font-medium text-teal-600 hover:text-teal-500"
+                >
+                    Esqueceu sua senha?
+                </RouterLink>
+            </div>
             <input
               id="password"
               name="password"
@@ -72,15 +81,17 @@ function LoginPage() {
             />
           </div>
         </div>
+
         <div>
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-teal-700 hover:bg-teal-800"
+            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-teal-700 hover:bg-teal-800 transition-colors"
           >
             Entrar
           </button>
         </div>
       </form>
+      
       <p className="mt-4 text-sm text-center text-gray-600">
         Ainda não tem uma conta?{' '}
         <RouterLink to="/access" className="font-medium text-teal-700 hover:text-teal-500">
