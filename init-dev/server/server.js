@@ -4,6 +4,7 @@ const connectDB = require('./config/db');
 const courseRoutes = require('./routes/courseRoutes');
 const userRoutes = require('./routes/userRoutes');
 const noteRoutes = require('./routes/noteRoutes');
+const progressRoutes = require('./routes/progressRoutes');
 const cors = require('cors');
 
 dotenv.config({ path: './.env' });
@@ -26,6 +27,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/notes', noteRoutes);
 app.use('/api/enroll', require('./routes/enrollmentRoutes'));
 app.use('/api/access', require('./routes/accessRoutes'));
+app.use('/api/progress', progressRoutes);
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/messages', require('./routes/messageRoutes'));
 

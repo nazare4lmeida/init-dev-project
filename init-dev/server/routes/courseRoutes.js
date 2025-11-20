@@ -1,13 +1,14 @@
 // server/routes/courseRoutes.js
 const express = require('express');
 const router = express.Router();
-const { getCourses, getCoursesAdmin, createCourse, updateCourse, deleteCourse } = require('../controllers/courseController');
+const { getCourses, getCoursesAdmin, createCourse, updateCourse, deleteCourse, getCourseDetailsPublic } = require('../controllers/courseController');
 const { protect } = require('../middleware/authMiddleware');
 const { admin } = require('../middleware/adminMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
 // Rotas públicas
 router.get('/', getCourses);
+router.get('/:slug', protect, getCourseDetailsPublic);
 
 // Rotas de admin (protegidas)
 router.get('/admin', protect, admin, getCoursesAdmin);
